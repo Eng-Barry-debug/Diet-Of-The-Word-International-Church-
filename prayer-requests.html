@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prayer Requests | Diet of the Word Church</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="assets/css/custom.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-purple-50 to-blue-100 min-h-screen flex flex-col">
+  <div id="header"></div>
+
+  <!-- Hero Section -->
+  <section class="relative flex flex-col items-center justify-center text-center py-20 bg-gradient-to-br from-blue-800 via-purple-700 to-pink-600 shadow-2xl">
+    <h1 class="text-4xl md:text-5xl font-extrabold text-white drop-shadow mb-4">Prayer Requests</h1>
+    <p class="text-lg md:text-2xl text-blue-100 max-w-2xl mx-auto mb-6 font-medium">Let us stand with you in prayer. Submit your request below and our team will pray for you.</p>
+  </section>
+
+  <!-- Prayer Request Form -->
+  <main class="flex-1 flex items-center justify-center py-12 px-4">
+    <div class="w-full max-w-lg bg-white rounded-2xl shadow-2xl p-8">
+      <form id="prayerForm" class="space-y-6">
+        <div>
+          <label for="name" class="block text-sm font-semibold text-gray-700 mb-1">Your Name</label>
+          <input type="text" id="name" name="name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50 placeholder-gray-400 transition-all duration-300" placeholder="Enter your name" />
+          <span class="text-xs text-red-500 mt-1 hidden" id="error-name"></span>
+        </div>
+        <div>
+          <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">Email Address</label>
+          <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50 placeholder-gray-400 transition-all duration-300" placeholder="Enter your email" />
+          <span class="text-xs text-red-500 mt-1 hidden" id="error-email"></span>
+        </div>
+        <div>
+          <label for="request" class="block text-sm font-semibold text-gray-700 mb-1">Prayer Request</label>
+          <textarea id="request" name="request" rows="4" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50 placeholder-gray-400 transition-all duration-300 resize-none" placeholder="Share your prayer request here..."></textarea>
+          <span class="text-xs text-red-500 mt-1 hidden" id="error-request"></span>
+        </div>
+        <button type="submit" id="submitBtn" class="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-800 text-white font-semibold rounded-lg shadow-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 flex items-center justify-center gap-2">
+          <span>Submit Request</span>
+          <svg id="loadingSpinner" class="w-5 h-5 text-white animate-spin hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-opacity="0.2" stroke-width="4"/><path d="M4 12a8 8 0 018-8"/></svg>
+              </button>
+          </form>
+      <div id="thankYouMessage" class="hidden mt-8 text-center animate__animated animate__fadeInUp">
+        <div class="w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center animate-bounce">
+          <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">Thank you for your request!</h2>
+        <p class="text-gray-700">Our prayer team will begin interceding for you immediately.</p>
+      </div>
+      <div id="errorMessage" class="hidden mt-8 text-center text-red-600 font-semibold"></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"></script>
+  <script>
+      // Helper: Validate email
+      function validateEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      }
+      // Form validation and AJAX submit
+      document.getElementById('prayerForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        // Hide messages
+        document.getElementById('thankYouMessage').classList.add('hidden');
+        document.getElementById('errorMessage').classList.add('hidden');
+        // Validate
+        let valid = true;
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const request = document.getElementById('request').value.trim();
+        // Name
+        if (!name) {
+          valid = false;
+          document.getElementById('error-name').textContent = 'Name is required.';
+          document.getElementById('error-name').classList.remove('hidden');
+        } else {
+          document.getElementById('error-name').classList.add('hidden');
+        }
+        // Email
+        if (!email) {
+          valid = false;
+          document.getElementById('error-email').textContent = 'Email is required.';
+          document.getElementById('error-email').classList.remove('hidden');
+        } else if (!validateEmail(email)) {
+          valid = false;
+          document.getElementById('error-email').textContent = 'Enter a valid email.';
+          document.getElementById('error-email').classList.remove('hidden');
+        } else {
+          document.getElementById('error-email').classList.add('hidden');
+        }
+        // Request
+        if (!request) {
+          valid = false;
+          document.getElementById('error-request').textContent = 'Prayer request is required.';
+          document.getElementById('error-request').classList.remove('hidden');
+        } else {
+          document.getElementById('error-request').classList.add('hidden');
+        }
+        if (!valid) return;
+        // Show loading
+        const btn = document.getElementById('submitBtn');
+        const spinner = document.getElementById('loadingSpinner');
+        btn.disabled = true;
+        spinner.classList.remove('hidden');
+        // AJAX POST
+        try {
+          const res = await fetch('/api/prayer-requests', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, message: request })
+          });
+          const data = await res.json();
+          if (data.success) {
+            document.getElementById('prayerForm').classList.add('hidden');
+            document.getElementById('thankYouMessage').classList.remove('hidden');
+          } else {
+            document.getElementById('errorMessage').textContent = data.message || 'Submission failed. Please try again.';
+            document.getElementById('errorMessage').classList.remove('hidden');
+          }
+        } catch (err) {
+          document.getElementById('errorMessage').textContent = 'Network error. Please try again.';
+          document.getElementById('errorMessage').classList.remove('hidden');
+        }
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+    });
+  </script>
+  <script>
+    fetch('components/header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header').innerHTML = data;
+        // --- Dropdown and mobile menu logic ---
+        // Mobile menu open/close logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileOverlay = document.getElementById('mobile-overlay');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        function openMobileMenu() {
+          mobileMenu.classList.remove('translate-x-full', 'opacity-0');
+          mobileMenu.classList.add('translate-x-0', 'opacity-100');
+          mobileOverlay.classList.remove('hidden', 'opacity-0');
+          mobileOverlay.classList.add('block', 'opacity-100');
+          mobileMenuBtn.setAttribute('aria-expanded', 'true');
+        }
+        function closeMobileMenu() {
+          mobileMenu.classList.add('translate-x-full', 'opacity-0');
+          mobileMenu.classList.remove('translate-x-0', 'opacity-100');
+          mobileOverlay.classList.add('hidden', 'opacity-0');
+          mobileOverlay.classList.remove('block', 'opacity-100');
+          mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        }
+        if (mobileMenuBtn && mobileMenu && mobileOverlay && mobileMenuClose) {
+          mobileMenuBtn.addEventListener('click', openMobileMenu);
+          mobileMenuClose.addEventListener('click', closeMobileMenu);
+          mobileOverlay.addEventListener('click', closeMobileMenu);
+        }
+        // Ministries dropdown: open on hover or click, close on outside click
+        const ministriesDropdown = document.getElementById('ministries-dropdown');
+        const ministriesLink = document.getElementById('ministries-link');
+        const ministriesMenu = document.getElementById('ministries-menu');
+        let ministriesOpen = false;
+        if (ministriesDropdown && ministriesLink && ministriesMenu) {
+          function openDropdown() {
+            ministriesMenu.classList.add('opacity-100', 'pointer-events-auto');
+            ministriesMenu.classList.remove('opacity-0', 'pointer-events-none');
+            ministriesOpen = true;
+          }
+          function closeDropdown() {
+            ministriesMenu.classList.remove('opacity-100', 'pointer-events-auto');
+            ministriesMenu.classList.add('opacity-0', 'pointer-events-none');
+            ministriesOpen = false;
+          }
+          ministriesDropdown.addEventListener('mouseenter', openDropdown);
+          ministriesDropdown.addEventListener('mouseleave', closeDropdown);
+          ministriesLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            ministriesOpen ? closeDropdown() : openDropdown();
+          });
+          document.addEventListener('click', function(e) {
+            if (!ministriesDropdown.contains(e.target)) {
+              closeDropdown();
+            }
+          });
+        }
+      });
+  </script>
+  </main>
+
+  <div id="footer"></div>
+</body>
+</html> 

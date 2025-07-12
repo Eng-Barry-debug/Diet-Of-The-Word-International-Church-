@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leadership | Diet of the Word International Church</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="assets/css/custom.css" rel="stylesheet">
+  <style>
+    .card { background: #fff; border-radius: 1rem; box-shadow: 0 4px 24px 0 rgba(80, 80, 160, 0.08); padding: 2rem 1.5rem; margin-bottom: 0; }
+    @media (max-width: 768px) { .card { padding: 1.25rem 1rem; } }
+    .fade-in-up { opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(.4,0,.2,1), transform 0.8s cubic-bezier(.4,0,.2,1); }
+    .fade-in-up.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body class="bg-white text-black">
+  <!-- Header Navigation Component -->
+  <div id="header"></div>
+  <script>
+    fetch('components/header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header').innerHTML = data;
+        // --- Dropdown and mobile menu logic ---
+        // Mobile menu open/close logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileOverlay = document.getElementById('mobile-overlay');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        function openMobileMenu() {
+          mobileMenu.classList.remove('translate-x-full', 'opacity-0');
+          mobileMenu.classList.add('translate-x-0', 'opacity-100');
+          mobileOverlay.classList.remove('hidden', 'opacity-0');
+          mobileOverlay.classList.add('block', 'opacity-100');
+          mobileMenuBtn.setAttribute('aria-expanded', 'true');
+        }
+        function closeMobileMenu() {
+          mobileMenu.classList.add('translate-x-full', 'opacity-0');
+          mobileMenu.classList.remove('translate-x-0', 'opacity-100');
+          mobileOverlay.classList.add('hidden', 'opacity-0');
+          mobileOverlay.classList.remove('block', 'opacity-100');
+          mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        }
+        if (mobileMenuBtn && mobileMenu && mobileOverlay && mobileMenuClose) {
+          mobileMenuBtn.addEventListener('click', openMobileMenu);
+          mobileMenuClose.addEventListener('click', closeMobileMenu);
+          mobileOverlay.addEventListener('click', closeMobileMenu);
+        }
+        // Ministries dropdown: open on hover or click, close on outside click
+        const ministriesDropdown = document.getElementById('ministries-dropdown');
+        const ministriesLink = document.getElementById('ministries-link');
+        const ministriesMenu = document.getElementById('ministries-menu');
+        let ministriesOpen = false;
+        if (ministriesDropdown && ministriesLink && ministriesMenu) {
+          function openDropdown() {
+            ministriesMenu.classList.add('opacity-100', 'pointer-events-auto');
+            ministriesMenu.classList.remove('opacity-0', 'pointer-events-none');
+            ministriesOpen = true;
+          }
+          function closeDropdown() {
+            ministriesMenu.classList.remove('opacity-100', 'pointer-events-auto');
+            ministriesMenu.classList.add('opacity-0', 'pointer-events-none');
+            ministriesOpen = false;
+          }
+          ministriesDropdown.addEventListener('mouseenter', openDropdown);
+          ministriesDropdown.addEventListener('mouseleave', closeDropdown);
+          ministriesLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            ministriesOpen ? closeDropdown() : openDropdown();
+          });
+          document.addEventListener('click', function(e) {
+            if (!ministriesDropdown.contains(e.target)) {
+              closeDropdown();
+            }
+          });
+        }
+      });
+  </script>
+
+  <!-- HERO SECTION -->
+  <section class="relative bg-gradient-to-br from-indigo-900 via-purple-700 to-blue-600 min-h-[45vh] flex items-center justify-center overflow-hidden shadow-2xl">
+    <div class="absolute inset-0 bg-hero-pattern opacity-10 pointer-events-none"></div>
+    <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+    <div class="relative z-10 flex flex-col items-center justify-center w-full px-4 py-16 text-center animate-fade-in-up">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white drop-shadow-lg mb-4">Our Leadership</h1>
+      <p class="text-xl md:text-2xl text-blue-100 max-w-2xl mx-auto mb-8 font-medium drop-shadow-md">Meet the dedicated team serving and shepherding Diet of the Word International Church.</p>
+    </div>
+  </section>
+
+  <!-- LEADERSHIP TEAM GRID -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-8 text-indigo-900">Leadership Team</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="card text-center">
+          <img src="assets/images/gallery/helena-lopes-e3OUQGT9bWU-unsplash.jpg" alt="Pastor John Mwangi" class="w-28 h-28 object-cover rounded-full mx-auto mb-4 border-4 border-indigo-200">
+          <h3 class="font-bold text-lg text-blue-900 mb-1">Pastor John Mwangi</h3>
+          <p class="text-purple-700 font-semibold mb-2">Lead Pastor</p>
+          <p class="text-gray-700">Passionate about teaching the Word and shepherding the church family.</p>
+        </div>
+        <div class="card text-center">
+          <img src="assets/images/gallery/priscilla-du-preez-nF8xhLMmg0c-unsplash.jpg" alt="Mary Wanjiku" class="w-28 h-28 object-cover rounded-full mx-auto mb-4 border-4 border-pink-200">
+          <h3 class="font-bold text-lg text-blue-900 mb-1">Mary Wanjiku</h3>
+          <p class="text-pink-700 font-semibold mb-2">Worship Director</p>
+          <p class="text-gray-700">Leads our worship ministry and helps people encounter God through music.</p>
+        </div>
+        <div class="card text-center">
+          <img src="assets/images/gallery/naassom-azevedo-Q_Sei-TqSlc-unsplash.jpg" alt="David Ochieng" class="w-28 h-28 object-cover rounded-full mx-auto mb-4 border-4 border-blue-200">
+          <h3 class="font-bold text-lg text-blue-900 mb-1">David Ochieng</h3>
+          <p class="text-blue-700 font-semibold mb-2">Youth Pastor</p>
+          <p class="text-gray-700">Invests in the next generation and leads our youth and outreach programs.</p>
+        </div>
+        <!-- Add more leaders as needed -->
+      </div>
+    </div>
+  </section>
+
+  <!-- CALL TO CONNECT -->
+  <section class="py-16 bg-gradient-to-br from-blue-600 to-indigo-700 text-white text-center">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold mb-4">Connect With Our Leaders</h2>
+      <p class="mb-4">Our pastors and ministry leaders are here to serve you. Reach out with questions, prayer requests, or to get involved!</p>
+      <a href="contact.html" class="inline-block px-8 py-3 rounded-full bg-white/20 border border-white/30 text-white font-bold shadow hover:bg-white/30 transition">Contact Us</a>
+    </div>
+  </section>
+
+</body>
+</html> 

@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery | Diet of the Word Church</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="assets/css/custom.css" rel="stylesheet">
+  <style>
+    .fade-in-up { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.4,0,0.2,1); }
+    .fade-in-up.visible { opacity: 1; transform: translateY(0); }
+    .divider-gradient { background: linear-gradient(90deg, #6366f1 0%, #2563eb 50%, #a21caf 100%); height: 4px; border-radius: 2px; }
+    .icon-gradient { background: linear-gradient(135deg, #6366f1 0%, #2563eb 60%, #a21caf 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .parallax-hero { background-attachment: fixed; }
+    @media (max-width: 1024px) { .parallax-hero { background-attachment: scroll; } }
+    .gallery-item {
+      opacity: 1;
+      transform: scale(1);
+      transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+    .gallery-item.hide-anim {
+      opacity: 0;
+      transform: translateY(40px) scale(0.95);
+      pointer-events: none;
+      transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+    .gallery-item.tilt {
+      will-change: transform;
+      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    .gallery-item .ripple {
+      position: absolute;
+      border-radius: 50%;
+      transform: scale(0);
+      animation: ripple 0.6s linear;
+      background: rgba(59,130,246,0.2);
+      pointer-events: none;
+      z-index: 20;
+    }
+    @keyframes ripple {
+      to { transform: scale(4); opacity: 0; }
+    }
+    .divider-gradient {
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6, #3b82f6);
+      border-radius: 2px;
+      position: relative;
+      overflow: hidden;
+    }
+    .divider-gradient::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -80px; width: 80px; height: 100%;
+      background: linear-gradient(90deg, rgba(255,255,255,0.5) 0%, transparent 100%);
+      animation: shimmer 2s infinite linear;
+    }
+    @keyframes shimmer {
+      0% { left: -80px; }
+      100% { left: 100%; }
+    }
+    #backToTop.floating {
+      animation: floaty 2s infinite ease-in-out;
+    }
+    @keyframes floaty {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body class="bg-white text-black">
+  <!-- Skip to Content for Accessibility -->
+  <a href="#main-content" class="sr-only focus:not-sr-only absolute top-2 left-2 z-50 bg-blue-700 text-white px-4 py-2 rounded shadow-lg transition-all duration-200">Skip to Content</a>
+  <!-- Header Navigation Component -->
+  <div id="header"></div>
+  <script>
+    fetch('components/header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header').innerHTML = data;
+        // --- Dropdown and mobile menu logic ---
+        // Mobile menu open/close logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileOverlay = document.getElementById('mobile-overlay');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        function openMobileMenu() {
+          mobileMenu.classList.remove('translate-x-full', 'opacity-0');
+          mobileMenu.classList.add('translate-x-0', 'opacity-100');
+          mobileOverlay.classList.remove('hidden', 'opacity-0');
+          mobileOverlay.classList.add('block', 'opacity-100');
+          mobileMenuBtn.setAttribute('aria-expanded', 'true');
+        }
+        function closeMobileMenu() {
+          mobileMenu.classList.add('translate-x-full', 'opacity-0');
+          mobileMenu.classList.remove('translate-x-0', 'opacity-100');
+          mobileOverlay.classList.add('hidden', 'opacity-0');
+          mobileOverlay.classList.remove('block', 'opacity-100');
+          mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        }
+        if (mobileMenuBtn && mobileMenu && mobileOverlay && mobileMenuClose) {
+          mobileMenuBtn.addEventListener('click', openMobileMenu);
+          mobileMenuClose.addEventListener('click', closeMobileMenu);
+          mobileOverlay.addEventListener('click', closeMobileMenu);
+        }
+        // Ministries dropdown: open on hover or click, close on outside click
+        const ministriesDropdown = document.getElementById('ministries-dropdown');
+        const ministriesLink = document.getElementById('ministries-link');
+        const ministriesMenu = document.getElementById('ministries-menu');
+        let ministriesOpen = false;
+        if (ministriesDropdown && ministriesLink && ministriesMenu) {
+          function openDropdown() {
+            ministriesMenu.classList.add('opacity-100', 'pointer-events-auto');
+            ministriesMenu.classList.remove('opacity-0', 'pointer-events-none');
+            ministriesOpen = true;
+          }
+          function closeDropdown() {
+            ministriesMenu.classList.remove('opacity-100', 'pointer-events-auto');
+            ministriesMenu.classList.add('opacity-0', 'pointer-events-none');
+            ministriesOpen = false;
+          }
+          ministriesDropdown.addEventListener('mouseenter', openDropdown);
+          ministriesDropdown.addEventListener('mouseleave', closeDropdown);
+          ministriesLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            ministriesOpen ? closeDropdown() : openDropdown();
+          });
+          document.addEventListener('click', function(e) {
+            if (!ministriesDropdown.contains(e.target)) {
+              closeDropdown();
+            }
+          });
+        }
+      });
+  </script>
+
+<!-- HERO SECTION: Modern, Professional, Interactive -->
+<section class="relative bg-gradient-to-br from-blue-800 via-purple-700 to-pink-600 min-h-[55vh] flex items-center justify-center overflow-hidden shadow-2xl">
+  <div class="absolute inset-0 bg-hero-pattern opacity-10 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+  <div class="relative z-10 flex flex-col items-center justify-center w-full px-4 py-16 text-center animate-fade-in-up">
+    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white drop-shadow-lg mb-4">Gallery</h1>
+    <p class="text-xl md:text-2xl text-blue-100 max-w-2xl mx-auto mb-8 font-medium drop-shadow-md">A glimpse into the life and ministry of Diet of the Word International Church. Explore moments of worship, fellowship, and service captured in our community.</p>
+  </div>
+  <style>
+    @keyframes fadeInUpHero {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: none; }
+    }
+    .animate-fade-in-up {
+      opacity: 0;
+      animation: fadeInUpHero 1.2s cubic-bezier(.4,0,.2,1) 0.2s forwards;
+    }
+    .bg-hero-pattern {
+      background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="%23fff" fill-opacity="0.08"/></svg>');
+      background-repeat: repeat;
+    }
+  </style>
+</section>
+
+<!-- Gallery Statistics Section -->
+<section class="bg-gradient-to-r from-blue-50 via-purple-50 to-blue-100 py-16">
+  <div class="container mx-auto px-4">
+    <h2 class="text-center text-blue-900 text-2xl md:text-3xl font-extrabold tracking-widest uppercase mb-2 fade-in-up">Gallery Overview</h2>
+    <div class="divider-gradient mx-auto mb-12 fade-in-up"></div>
+    
+    <!-- Statistics Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+      <div class="text-center bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 fade-in-up">
+        <div class="text-4xl font-bold text-blue-600 mb-2">11</div>
+        <div class="text-sm font-semibold text-gray-700 uppercase tracking-wide">Total Photos</div>
+      </div>
+      <div class="text-center bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 fade-in-up" style="transition-delay: 0.1s;">
+        <div class="text-4xl font-bold text-purple-600 mb-2">4</div>
+        <div class="text-sm font-semibold text-gray-700 uppercase tracking-wide">Categories</div>
+      </div>
+      <div class="text-center bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 fade-in-up" style="transition-delay: 0.2s;">
+        <div class="text-4xl font-bold text-blue-600 mb-2">500+</div>
+        <div class="text-sm font-semibold text-gray-700 uppercase tracking-wide">Community Members</div>
+      </div>
+      <div class="text-center bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 fade-in-up" style="transition-delay: 0.3s;">
+        <div class="text-4xl font-bold text-purple-600 mb-2">50+</div>
+        <div class="text-sm font-semibold text-gray-700 uppercase tracking-wide">Events Captured</div>
+      </div>
+    </div>
+
+    <!-- Gallery Categories Overview -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 fade-in-up">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553 2.276A2 2 0 0121 14.09V17a2 2 0 01-2 2H5a2 2 0 01-2-2v-2.91a2 2 0 01.447-1.314L8 10m7 0V5a3 3 0 00-6 0v5m6 0H9"/></svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-lg text-gray-800">Worship</h3>
+            <p class="text-sm text-gray-600">3 Photos</p>
+          </div>
+        </div>
+        <p class="text-gray-700 text-sm">Spirit-filled worship services, prayer gatherings, and Bible study sessions that strengthen our faith community.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 fade-in-up">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-lg text-gray-800">Community</h3>
+            <p class="text-sm text-gray-600">3 Photos</p>
+          </div>
+        </div>
+        <p class="text-gray-700 text-sm">Community outreach programs, fellowship events, and service initiatives that demonstrate God's love in action.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 fade-in-up">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 1.343-3 3 0 1.657 1.343 3 3 3s3-1.343 3-3c0-1.657-1.343-3-3-3zm0 0V4m0 7v7m0 0H9m3 0h3"/></svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-lg text-gray-800">Youth</h3>
+            <p class="text-sm text-gray-600">3 Photos</p>
+          </div>
+        </div>
+        <p class="text-gray-700 text-sm">Youth ministry activities, leadership development, and faith-building experiences for our young members.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 fade-in-up">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-lg text-gray-800">Events</h3>
+            <p class="text-sm text-gray-600">2 Photos</p>
+          </div>
+        </div>
+        <p class="text-gray-700 text-sm">Special celebrations, milestones, and memorable events that bring our church family together in joy.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Gallery Grid -->
+<section class="container mx-auto px-4 py-20">
+  <h2 class="text-center text-blue-900 text-2xl md:text-3xl font-extrabold tracking-widest uppercase mb-2 fade-in-up">Our Moments</h2>
+  <div class="divider-gradient mx-auto mb-10 fade-in-up"></div>
+  
+  <!-- Gallery Description -->
+  <div class="max-w-4xl mx-auto text-center mb-12 fade-in-up">
+    <p class="text-lg text-gray-700 mb-6 leading-relaxed">
+      Welcome to our comprehensive photo gallery showcasing the vibrant life and ministry of Diet of the Word Church. 
+      Each image tells a story of faith, fellowship, and service that defines our church community. 
+      From powerful worship moments to community outreach initiatives, from youth ministry activities to special celebrations, 
+      these photographs capture the essence of our mission to spread God's love and build a strong, caring community.
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+      <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6">
+        <svg class="w-8 h-8 text-blue-600 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+        <h3 class="font-bold text-blue-900 mb-2">Community Focus</h3>
+        <p class="text-sm text-blue-800">Every photo reflects our commitment to building strong relationships and serving our community with love.</p>
+      </div>
+      <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6">
+        <svg class="w-8 h-8 text-purple-600 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553 2.276A2 2 0 0121 14.09V17a2 2 0 01-2 2H5a2 2 0 01-2-2v-2.91a2 2 0 01.447-1.314L8 10m7 0V5a3 3 0 00-6 0v5m6 0H9"/></svg>
+        <h3 class="font-bold text-purple-900 mb-2">Spiritual Growth</h3>
+        <p class="text-sm text-purple-800">Witness the journey of faith as our members grow spiritually through worship, prayer, and Bible study.</p>
+      </div>
+      <div class="bg-gradient-to-br from-blue-50 to-purple-100 rounded-xl p-6">
+        <svg class="w-8 h-8 text-blue-600 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 1.343-3 3 0 1.657 1.343 3 3 3s3-1.343 3-3c0-1.657-1.343-3-3-3zm0 0V4m0 7v7m0 0H9m3 0h3"/></svg>
+        <h3 class="font-bold text-blue-900 mb-2">Youth Development</h3>
+        <p class="text-sm text-blue-800">See how we invest in the next generation through engaging activities and faith-building experiences.</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Gallery Filter -->
+  <div class="flex flex-wrap justify-center gap-4 mb-12 fade-in-up" aria-live="polite" id="filter-announcer">
+    <button class="filter-btn active px-6 py-3 rounded-full bg-gradient-to-r from-blue-700 to-purple-700 text-white font-semibold transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 shadow-lg" data-filter="all" aria-pressed="true">
+      <span class="flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+        All Photos (11)
+      </span>
+    </button>
+    <button class="filter-btn px-6 py-3 rounded-full bg-gray-200 text-gray-700 font-semibold transition-all duration-300 hover:scale-105 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-lg" data-filter="worship" aria-pressed="false">
+      <span class="flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553 2.276A2 2 0 0121 14.09V17a2 2 0 01-2 2H5a2 2 0 01-2-2v-2.91a2 2 0 01.447-1.314L8 10m7 0V5a3 3 0 00-6 0v5m6 0H9"/></svg>
+        Worship (3)
+      </span>
+    </button>
+    <button class="filter-btn px-6 py-3 rounded-full bg-gray-200 text-gray-700 font-semibold transition-all duration-300 hover:scale-105 hover:bg-purple-100 focus:outline-none focus:ring-2 focus:ring-purple-400 shadow-lg" data-filter="community" aria-pressed="false">
+      <span class="flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+        Community (3)
+      </span>
+    </button>
+    <button class="filter-btn px-6 py-3 rounded-full bg-gray-200 text-gray-700 font-semibold transition-all duration-300 hover:scale-105 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-lg" data-filter="youth" aria-pressed="false">
+      <span class="flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 1.343-3 3 0 1.657 1.343 3 3 3s3-1.343 3-3c0-1.657-1.343-3-3-3zm0 0V4m0 7v7m0 0H9m3 0h3"/></svg>
+        Youth (3)
+      </span>
+    </button>
+    <button class="filter-btn px-6 py-3 rounded-full bg-gray-200 text-gray-700 font-semibold transition-all duration-300 hover:scale-105 hover:bg-purple-100 focus:outline-none focus:ring-2 focus:ring-purple-400 shadow-lg" data-filter="events" aria-pressed="false">
+      <span class="flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        Events (2)
+      </span>
+    </button>
+  </div>
+  
+  <!-- Gallery Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="gallery-grid">
+    <!-- Gallery Item 1 - Worship -->
+    <div class="gallery-item group fade-in-up" data-category="worship" tabindex="0" aria-label="Worship Service image">
+      <div class="relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
+        <div class="image-spinner absolute inset-0 flex items-center justify-center bg-white/60 z-10"><svg class="animate-spin h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg></div>
+        <img src="assets/images/gallery/ivana-cajina-dnL6ZIpht2s-unsplash.jpg" alt="Worship Service" class="w-full h-64 object-cover cursor-pointer gallery-img" onload="this.previousElementSibling.style.display='none'" onclick="openLightbox(this.src, 'Worship Service', 'Spirit-filled worship and praise with our church family')" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
+          <div class="flex items-center gap-2 mb-2">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553 2.276A2 2 0 0121 14.09V17a2 2 0 01-2 2H5a2 2 0 01-2-2v-2.91a2 2 0 01.447-1.314L8 10m7 0V5a3 3 0 00-6 0v5m6 0H9"/></svg>
+            <span class="text-white font-bold uppercase tracking-wide">Worship Service</span>
+          </div>
+          <p class="text-gray-200 text-sm">Spirit-filled worship and praise with our church family.</p>
+        </div>
+        <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery Item 2 - Community -->
+    <div class="gallery-item group fade-in-up" data-category="community">
+      <div class="relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
+        <img src="assets/images/gallery/bruce-mars-8YG31Xn4dSw-unsplash.jpg" alt="Community Outreach" class="w-full h-64 object-cover cursor-pointer" onclick="openLightbox(this.src, 'Community Outreach', 'Serving our neighbors with love and compassion')" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
+          <div class="flex items-center gap-2 mb-2">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a5 5 0 00-10 0v2a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2v-7a2 2 0 00-2-2z"/></svg>
+            <span class="text-white font-bold uppercase tracking-wide">Community Outreach</span>
+          </div>
+          <p class="text-gray-200 text-sm">Serving our neighbors with love and compassion.</p>
+        </div>
+        <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery Item 3 - Youth -->
+    <div class="gallery-item group fade-in-up" data-category="youth">
+      <div class="relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
+        <img src="assets/images/gallery/designecologist-y91FmfcmYYw-unsplash.jpg" alt="Youth Fellowship" class="w-full h-64 object-cover cursor-pointer" onclick="openLightbox(this.src, 'Youth Fellowship', 'Building faith and friendships among our youth')" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
+          <div class="flex items-center gap-2 mb-2">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 1.343-3 3 0 1.657 1.343 3 3 3s3-1.343 3-3c0-1.657-1.343-3-3-3zm0 0V4m0 7v7m0 0H9m3 0h3"/></svg>
+            <span class="text-white font-bold uppercase tracking-wide">Youth Fellowship</span>
+          </div>
+          <p class="text-gray-200 text-sm">Building faith and friendships among our youth.</p>
+        </div>
+        <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery Item 4 - Events -->
+    <div class="gallery-item group fade-in-up" data-category="events">
+      <div class="relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
+        <img src="assets/images/gallery/priscilla-du-preez-XkKCui44iM0-unsplash.jpg" alt="Church Events" class="w-full h-64 object-cover cursor-pointer" onclick="openLightbox(this.src, 'Church Events', 'Celebrating special moments and milestones together')" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
+          <div class="flex items-center gap-2 mb-2">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <span class="text-white font-bold uppercase tracking-wide">Church Events</span>
+          </div>
+          <p class="text-gray-200 text-sm">Celebrating special moments and milestones together.</p>
+        </div>
+        <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery Item 5 - Worship -->
+    <div class="gallery-item group fade-in-up" data-category="worship">
+      <div class="relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
+        <img src="assets/images/gallery/helena-lopes-e3OUQGT9bWU-unsplash.jpg" alt="Prayer Time" class="w-full h-64 object-cover cursor-pointer" onclick="openLightbox(this.src, 'Prayer Time', 'Deep moments of prayer and spiritual connection')" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
+          <div class="flex items-center gap-2 mb-2">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"/></svg>
+            <span class="text-white font-bold uppercase tracking-wide">Prayer Time</span>
+          </div>
+          <p class="text-gray-200 text-sm">Deep moments of prayer and spiritual connection.</p>
+        </div>
+        <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery Item 6 - Community -->
+    <div class="gallery-item group fade-in-up" data-category="community">
+      <div class="relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
+        <img src="assets/images/gallery/naassom-azevedo-Q_Sei-TqSlc-unsplash.jpg" alt="Fellowship" class="w-full h-64 object-cover cursor-pointer" onclick="openLightbox(this.src, 'Fellowship', 'Building strong relationships and community bonds')" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
+          <div class="flex items-center gap-2 mb-2">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            <span class="text-white font-bold uppercase tracking-wide">Fellowship</span>
+          </div>
+          <p class="text-gray-200 text-sm">Building strong relationships and community bonds.</p>
+        </div>
+        <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery Item 7 - Youth -->
+    <div class="gallery-item group fade-in-up" data-category="youth">
+      <div class="relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
+        <img src="assets/images/gallery/dimitar-krastev-19lY7FMfWlo-unsplash.jpg" alt="Youth Ministry" class="w-full h-64 object-cover cursor-pointer" onclick="openLightbox(this.src, 'Youth Ministry', 'Empowering young people to grow in faith')" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
+          <div class="flex items-center gap-2 mb-2">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 1.343-3 3 0 1.657 1.343 3 3 3s3-1.343 3-3c0-1.657-1.343-3-3-3zm0 0V4m0 7v7m0 0H9m3 0h3"/></svg>
+            <span class="text-white font-bold uppercase tracking-wide">Youth Ministry</span>
+          </div>
+          <p class="text-gray-200 text-sm">Empowering young people to grow in faith.</p>
+        </div>
+        <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery Item 8 - Events -->
+    <div class="gallery-item group fade-in-up" data-category="events">
+      <div class="relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
+        <img src="assets/images/gallery/helena-lopes-PGnqT0rXWLs-unsplash.jpg" alt="Special Celebrations" class="w-full h-64 object-cover cursor-pointer" onclick="openLightbox(this.src, 'Special Celebrations', 'Marking important milestones and celebrations')" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
+          <div class="flex items-center gap-2 mb-2">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <span class="text-white font-bold uppercase tracking-wide">Special Celebrations</span>
+          </div>
+          <p class="text-gray-200 text-sm">Marking important milestones and celebrations.</p>
+        </div>
+        <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery Item 9 - Worship -->
+    <div class="gallery-item group fade-in-up" data-category="worship">
+      <div class="relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
+        <img src="assets/images/gallery/brooke-cagle-oTweoxMKdkA-unsplash.jpg" alt="Bible Study" class="w-full h-64 object-cover cursor-pointer" onclick="openLightbox(this.src, 'Bible Study', 'Deep diving into God\'s Word together')" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
+          <div class="flex items-center gap-2 mb-2">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            <span class="text-white font-bold uppercase tracking-wide">Bible Study</span>
+          </div>
+          <p class="text-gray-200 text-sm">Deep diving into God's Word together.</p>
+        </div>
+        <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery Item 10 - Community -->
+    <div class="gallery-item group fade-in-up" data-category="community">
+      <div class="relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
+        <img src="assets/images/gallery/priscilla-du-preez-nF8xhLMmg0c-unsplash.jpg" alt="Community Service" class="w-full h-64 object-cover cursor-pointer" onclick="openLightbox(this.src, 'Community Service', 'Serving others with love and compassion')" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
+          <div class="flex items-center gap-2 mb-2">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+            <span class="text-white font-bold uppercase tracking-wide">Community Service</span>
+          </div>
+          <p class="text-gray-200 text-sm">Serving others with love and compassion.</p>
+        </div>
+        <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery Item 11 - Youth -->
+    <div class="gallery-item group fade-in-up" data-category="youth">
+      <div class="relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
+        <img src="assets/images/gallery/simi-iluyomade-tvbxqXI5mmo-unsplash.jpg" alt="Youth Activities" class="w-full h-64 object-cover cursor-pointer" onclick="openLightbox(this.src, 'Youth Activities', 'Engaging activities that build character and faith')" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
+          <div class="flex items-center gap-2 mb-2">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 1.343-3 3 0 1.657 1.343 3 3 3s3-1.343 3-3c0-1.657-1.343-3-3-3zm0 0V4m0 7v7m0 0H9m3 0h3"/></svg>
+            <span class="text-white font-bold uppercase tracking-wide">Youth Activities</span>
+          </div>
+          <p class="text-gray-200 text-sm">Engaging activities that build character and faith.</p>
+        </div>
+        <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox Modal -->
+<div id="lightbox" class="fixed inset-0 bg-black/90 z-50 hidden items-center justify-center p-4" aria-modal="true" role="dialog">
+  <div class="relative max-w-4xl max-h-full">
+    <button onclick="closeLightbox()" class="absolute -top-12 right-0 text-white hover:text-gray-300 text-4xl font-bold z-10" aria-label="Close lightbox">&times;</button>
+    <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl" />
+    <div class="mt-4 text-center">
+      <h3 id="lightbox-title" class="text-white text-xl font-bold mb-2"></h3>
+      <p id="lightbox-description" class="text-gray-300"></p>
+      <div id="lightbox-indicator" class="text-blue-200 text-sm mt-2"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Gallery Filter Styles */
+  .filter-btn.active {
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+  }
+  
+  .filter-btn:hover:not(.active) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Gallery Item Animation */
+  .gallery-item {
+    opacity: 1;
+    transform: scale(1);
+    transition: all 0.5s ease-in-out;
+  }
+  
+  .gallery-item.hidden {
+    opacity: 0;
+    transform: scale(0.8);
+    pointer-events: none;
+  }
+  
+  .gallery-item:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Enhanced Lightbox Animation */
+  #lightbox {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    backdrop-filter: blur(10px);
+  }
+  
+  #lightbox.show {
+    opacity: 1;
+  }
+  
+  #lightbox img {
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  /* Lightbox Navigation */
+  .lightbox-nav button {
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .lightbox-nav button:hover {
+    backdrop-filter: blur(15px);
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+  
+  /* Enhanced Hover Effects */
+  .gallery-item .relative {
+    overflow: hidden;
+  }
+  
+  .gallery-item img {
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .gallery-item:hover img {
+    transform: scale(1.1);
+  }
+  
+  .gallery-item .absolute.inset-0 {
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.4) 50%,
+      transparent 100%
+    );
+  }
+  
+  /* Statistics Animation */
+  .text-4xl.font-bold {
+    transition: all 0.3s ease;
+  }
+  
+  .text-4xl.font-bold:hover {
+    transform: scale(1.1);
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+  }
+  
+  /* Testimonial Cards */
+  .bg-white\/10 {
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .bg-white\/10:hover {
+    backdrop-filter: blur(15px);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px) scale(1.02);
+  }
+  
+  /* Enhanced Button Styles */
+  .inline-block {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .inline-block::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+  }
+  
+  .inline-block:hover::before {
+    left: 100%;
+  }
+  
+  /* Fade In Up Animation */
+  .fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease-out;
+  }
+  
+  .fade-in-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Divider Gradient */
+  .divider-gradient {
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6, #3b82f6);
+    border-radius: 2px;
+    position: relative;
+  }
+  
+  .divider-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6, #3b82f6);
+    border-radius: 2px;
+    animation: shimmer 2s infinite;
+  }
+  
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  
+  /* Enhanced Card Shadows */
+  .shadow-xl {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+  
+  .shadow-2xl {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+  
+  /* Responsive Enhancements */
+  @media (max-width: 768px) {
+    .gallery-item:hover {
+      transform: translateY(-4px) scale(1.01);
+    }
+    
+    .filter-btn {
+      font-size: 0.875rem;
+      padding: 0.5rem 1rem;
+    }
+    
+    .text-4xl {
+      font-size: 2rem;
+    }
+  }
+  
+  /* Loading States */
+  .gallery-item.loading {
+    position: relative;
+  }
+  
+  .gallery-item.loading::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    border: 3px solid #f3f4f6;
+    border-top: 3px solid #3b82f6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 10;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Accessibility Enhancements */
+  .filter-btn:focus-visible,
+  .gallery-item:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+  
+  /* Print Styles */
+  @media print {
+    .filter-btn,
+    .lightbox,
+    .lightbox-nav {
+      display: none !important;
+    }
+    
+    .gallery-item {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+  }
+</style>
+
+<script>
+  // Gallery Filter Functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const filter = this.getAttribute('data-filter');
+        
+        // Update active button
+        filterBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Filter gallery items with animation
+        galleryItems.forEach((item, index) => {
+          setTimeout(() => {
+            if (filter === 'all' || item.getAttribute('data-category') === filter) {
+              item.classList.remove('hidden');
+              item.style.animationDelay = `${index * 0.1}s`;
+            } else {
+              item.classList.add('hidden');
+            }
+          }, index * 50);
+        });
+      });
+    });
+  });
+  
+  // Enhanced Lightbox Functionality
+  let currentImageIndex = 0;
+  let galleryImages = [];
+  
+  function openLightbox(src, title, description) {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxTitle = document.getElementById('lightbox-title');
+    const lightboxDescription = document.getElementById('lightbox-description');
+    
+    // Get all visible gallery images
+    galleryImages = Array.from(document.querySelectorAll('.gallery-item:not(.hidden) img'));
+    currentImageIndex = galleryImages.findIndex(img => img.src === src);
+    
+    lightboxImg.src = src;
+    lightboxTitle.textContent = title;
+    lightboxDescription.textContent = description;
+    
+    lightbox.classList.remove('hidden');
+    lightbox.classList.add('flex', 'show');
+    
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden';
+    
+    // Add navigation buttons
+    addLightboxNavigation();
+  }
+  
+  function addLightboxNavigation() {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxContent = lightbox.querySelector('.relative');
+    
+    // Remove existing navigation if any
+    const existingNav = lightbox.querySelector('.lightbox-nav');
+    if (existingNav) existingNav.remove();
+    
+    // Add navigation buttons
+    const nav = document.createElement('div');
+    nav.className = 'lightbox-nav absolute inset-0 flex items-center justify-between p-4 pointer-events-none';
+    nav.innerHTML = `
+      <button onclick="navigateLightbox(-1)" class="pointer-events-auto bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
+      </button>
+      <button onclick="navigateLightbox(1)" class="pointer-events-auto bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
+    `;
+    lightboxContent.appendChild(nav);
+  }
+  
+  function navigateLightbox(direction) {
+    if (galleryImages.length === 0) return;
+    
+    currentImageIndex = (currentImageIndex + direction + galleryImages.length) % galleryImages.length;
+    const newImage = galleryImages[currentImageIndex];
+    
+    // Get image data from the gallery item
+    const galleryItem = newImage.closest('.gallery-item');
+    const title = galleryItem.querySelector('.text-white.font-bold').textContent;
+    const description = galleryItem.querySelector('.text-gray-200.text-sm').textContent;
+    
+    // Update lightbox with new image
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxTitle = document.getElementById('lightbox-title');
+    const lightboxDescription = document.getElementById('lightbox-description');
+    
+    lightboxImg.style.opacity = '0';
+    setTimeout(() => {
+      lightboxImg.src = newImage.src;
+      lightboxTitle.textContent = title;
+      lightboxDescription.textContent = description;
+      lightboxImg.style.opacity = '1';
+    }, 200);
+  }
+  
+  function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    lightbox.classList.add('hidden');
+    lightbox.classList.remove('flex', 'show');
+    
+    // Restore body scroll
+    document.body.style.overflow = 'auto';
+    
+    // Remove navigation
+    const nav = lightbox.querySelector('.lightbox-nav');
+    if (nav) nav.remove();
+  }
+  
+  // Close lightbox on escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeLightbox();
+    } else if (e.key === 'ArrowLeft') {
+      navigateLightbox(-1);
+    } else if (e.key === 'ArrowRight') {
+      navigateLightbox(1);
+    }
+  });
+  
+  // Close lightbox on background click
+  document.getElementById('lightbox').addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeLightbox();
+    }
+  });
+  
+  // Image lazy loading for better performance
+  function lazyLoadImages() {
+    const images = document.querySelectorAll('.gallery-item img');
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.style.opacity = '1';
+          img.style.transform = 'scale(1)';
+          observer.unobserve(img);
+        }
+      });
+    });
+    
+    images.forEach(img => {
+      img.style.opacity = '0';
+      img.style.transform = 'scale(0.95)';
+      img.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      imageObserver.observe(img);
+    });
+  }
+  
+  // Enhanced scroll animations
+  function animateOnScroll() {
+    const elements = document.querySelectorAll('.fade-in-up');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          entry.target.style.animationDelay = entry.target.dataset.delay || '0s';
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    elements.forEach(el => {
+      observer.observe(el);
+    });
+  }
+  
+  // Initialize all functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    lazyLoadImages();
+    animateOnScroll();
+    
+    // Add smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  });
+  
+  // Gallery statistics counter animation
+  function animateCounters() {
+    const counters = document.querySelectorAll('.text-4xl.font-bold');
+    counters.forEach(counter => {
+      const target = parseInt(counter.textContent);
+      const increment = target / 50;
+      let current = 0;
+      
+      const updateCounter = () => {
+        if (current < target) {
+          current += increment;
+          counter.textContent = Math.ceil(current);
+          requestAnimationFrame(updateCounter);
+        } else {
+          counter.textContent = target;
+        }
+      };
+      
+      updateCounter();
+    });
+  }
+  
+  // Trigger counter animation when statistics section is visible
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounters();
+        statsObserver.unobserve(entry.target);
+      }
+    });
+  });
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    const statsSection = document.querySelector('.bg-gradient-to-r.from-blue-50');
+    if (statsSection) {
+      statsObserver.observe(statsSection);
+    }
+  });
+  
+  // Parallax effect for hero
+  window.addEventListener('scroll', function() {
+    const hero = document.querySelector('.parallax-hero');
+    if (hero) {
+      hero.style.backgroundPositionY = `${window.scrollY * 0.4}px`;
+    }
+  });
+  // Back to Top button
+  const backToTop = document.getElementById('backToTop');
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 300) {
+      backToTop.classList.add('opacity-100', 'pointer-events-auto', 'floating');
+      backToTop.classList.remove('opacity-0', 'pointer-events-none');
+    } else {
+      backToTop.classList.remove('opacity-100', 'pointer-events-auto', 'floating');
+      backToTop.classList.add('opacity-0', 'pointer-events-none');
+    }
+  });
+  backToTop.addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  // Focus trap for lightbox
+  function trapFocus(element) {
+    const focusableEls = element.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    const firstFocusableEl = focusableEls[0];
+    const lastFocusableEl = focusableEls[focusableEls.length - 1];
+    element.addEventListener('keydown', function(e) {
+      if (e.key === 'Tab') {
+        if (e.shiftKey) {
+          if (document.activeElement === firstFocusableEl) {
+            e.preventDefault();
+            lastFocusableEl.focus();
+          }
+        } else {
+          if (document.activeElement === lastFocusableEl) {
+            e.preventDefault();
+            firstFocusableEl.focus();
+          }
+        }
+      }
+    });
+  }
+  document.getElementById('lightbox').addEventListener('transitionend', function() {
+    if (!this.classList.contains('hidden')) {
+      trapFocus(this);
+      this.querySelector('button').focus();
+    }
+  });
+  // Animated filter transitions and accessibility
+  document.addEventListener('DOMContentLoaded', function() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const announcer = document.getElementById('filter-announcer');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const filter = this.getAttribute('data-filter');
+        // Update aria-pressed
+        filterBtns.forEach(b => b.setAttribute('aria-pressed', 'false'));
+        this.setAttribute('aria-pressed', 'true');
+        // Announce filter
+        announcer.setAttribute('aria-live', 'polite');
+        announcer.setAttribute('data-announcement', `Showing ${filter.charAt(0).toUpperCase() + filter.slice(1)} photos`);
+        // Filter gallery items with animation
+        let visibleIndex = 0;
+        galleryItems.forEach((item, index) => {
+          if (filter === 'all' || item.getAttribute('data-category') === filter) {
+            setTimeout(() => {
+              item.classList.remove('hide-anim');
+              item.classList.add('visible');
+              item.style.zIndex = 1;
+            }, visibleIndex * 80);
+            visibleIndex++;
+          } else {
+            item.classList.remove('visible');
+            item.classList.add('hide-anim');
+            item.style.zIndex = 0;
+          }
+        });
+      });
+    });
+    // Gallery card tilt effect
+    document.querySelectorAll('.gallery-item').forEach(card => {
+      card.addEventListener('mousemove', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * 6;
+        const rotateY = ((x - centerX) / centerX) * -6;
+        this.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      });
+      card.addEventListener('mouseleave', function() {
+        this.style.transform = '';
+      });
+      // Ripple effect
+      card.addEventListener('click', function(e) {
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        const rect = this.getBoundingClientRect();
+        ripple.style.left = `${e.clientX - rect.left}px`;
+        ripple.style.top = `${e.clientY - rect.top}px`;
+        ripple.style.width = ripple.style.height = `${rect.width / 2}px`;
+        this.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+      });
+    });
+  });
+  // Lightbox navigation indicator
+  function openLightbox(src, title, description) {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxTitle = document.getElementById('lightbox-title');
+    const lightboxDescription = document.getElementById('lightbox-description');
+    const lightboxIndicator = document.getElementById('lightbox-indicator');
+    galleryImages = Array.from(document.querySelectorAll('.gallery-item:not(.hide-anim):not(.hidden) img'));
+    currentImageIndex = galleryImages.findIndex(img => img.src === src);
+    lightboxImg.src = src;
+    lightboxTitle.textContent = title;
+    lightboxDescription.textContent = description;
+    lightbox.classList.remove('hidden');
+    lightbox.classList.add('flex', 'show');
+    document.body.style.overflow = 'hidden';
+    addLightboxNavigation();
+    // Show indicator
+    if (galleryImages.length > 0 && currentImageIndex >= 0) {
+      lightboxIndicator.textContent = `${currentImageIndex + 1} of ${galleryImages.length}`;
+    } else {
+      lightboxIndicator.textContent = '';
+    }
+  }
+  function navigateLightbox(direction) {
+    if (galleryImages.length === 0) return;
+    currentImageIndex = (currentImageIndex + direction + galleryImages.length) % galleryImages.length;
+    const newImage = galleryImages[currentImageIndex];
+    const galleryItem = newImage.closest('.gallery-item');
+    const title = galleryItem.querySelector('.text-white.font-bold').textContent;
+    const description = galleryItem.querySelector('.text-gray-200.text-sm').textContent;
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxTitle = document.getElementById('lightbox-title');
+    const lightboxDescription = document.getElementById('lightbox-description');
+    const lightboxIndicator = document.getElementById('lightbox-indicator');
+    lightboxImg.style.opacity = '0';
+    setTimeout(() => {
+      lightboxImg.src = newImage.src;
+      lightboxTitle.textContent = title;
+      lightboxDescription.textContent = description;
+      lightboxImg.style.opacity = '1';
+      if (galleryImages.length > 0 && currentImageIndex >= 0) {
+        lightboxIndicator.textContent = `${currentImageIndex + 1} of ${galleryImages.length}`;
+      } else {
+        lightboxIndicator.textContent = '';
+      }
+    }, 200);
+  }
+</script>
+
+<!-- Gallery Testimonials Section -->
+<section class="bg-gradient-to-r from-blue-900 via-purple-900 to-blue-800 text-white py-20">
+  <div class="container mx-auto px-4">
+    <h2 class="text-center text-2xl md:text-3xl font-extrabold tracking-widest uppercase mb-2 fade-in-up">What Our Community Says</h2>
+    <div class="divider-gradient mx-auto mb-12 fade-in-up"></div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 hover:bg-white/20 transition-all duration-300 transform hover:scale-105 fade-in-up">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full flex items-center justify-center">
+            <span class="text-white font-bold text-lg">S</span>
+          </div>
+          <div>
+            <h3 class="font-bold text-lg">Sarah Mwangi</h3>
+            <p class="text-blue-200 text-sm">Church Member</p>
+          </div>
+        </div>
+        <p class="text-blue-100 leading-relaxed">
+          "The gallery beautifully captures the spirit of our church community. Every photo reminds me of the love and fellowship we share. It's amazing to see how God works through our various ministries."
+        </p>
+      </div>
+
+      <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 hover:bg-white/20 transition-all duration-300 transform hover:scale-105 fade-in-up" style="transition-delay: 0.1s;">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full flex items-center justify-center">
+            <span class="text-white font-bold text-lg">D</span>
+          </div>
+          <div>
+            <h3 class="font-bold text-lg">David Ochieng</h3>
+            <p class="text-blue-200 text-sm">Youth Leader</p>
+          </div>
+        </div>
+        <p class="text-blue-100 leading-relaxed">
+          "As a youth leader, I love seeing the youth ministry photos. They show the energy and enthusiasm of our young people as they grow in faith. The gallery helps us document our journey together."
+        </p>
+      </div>
+
+      <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 hover:bg-white/20 transition-all duration-300 transform hover:scale-105 fade-in-up" style="transition-delay: 0.2s;">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full flex items-center justify-center">
+            <span class="text-white font-bold text-lg">M</span>
+          </div>
+          <div>
+            <h3 class="font-bold text-lg">Mary Wanjiku</h3>
+            <p class="text-blue-200 text-sm">Community Outreach</p>
+          </div>
+        </div>
+        <p class="text-blue-100 leading-relaxed">
+          "The community outreach photos inspire me to continue serving others. They remind us that we're not just a church building, but a family reaching out to those in need with God's love."
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Enhanced Call to Action Section -->
+<section class="container mx-auto px-4 py-20 text-center fade-in-up">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="text-purple-900 text-2xl md:text-3xl font-extrabold tracking-widest uppercase mb-2">Share Your Moments</h2>
+    <div class="divider-gradient mx-auto mb-8"></div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+      <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 text-left">
+        <h3 class="text-xl font-bold text-blue-900 mb-4">Submit Your Photos</h3>
+        <p class="text-blue-800 mb-6">Have photos or stories to share from a recent church event? We'd love to feature your moments in our gallery. Your contributions help us document our church's journey and inspire others.</p>
+        <ul class="text-blue-700 text-sm space-y-2 mb-6">
+          <li class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            High-quality photos (minimum 1200px width)
+          </li>
+          <li class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            Include event details and descriptions
+          </li>
+          <li class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            Respect privacy and get consent when needed
+          </li>
+        </ul>
+        <a href="/contact.html" class="inline-block bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400">
+          Submit Photos
+        </a>
+      </div>
+
+      <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-8 text-left">
+        <h3 class="text-xl font-bold text-purple-900 mb-4">Gallery Guidelines</h3>
+        <p class="text-purple-800 mb-6">To maintain the quality and appropriateness of our gallery, we follow these guidelines to ensure all content reflects our church's values and mission.</p>
+        <ul class="text-purple-700 text-sm space-y-2 mb-6">
+          <li class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            Content must be church-related and appropriate
+          </li>
+          <li class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            Photos should capture positive, uplifting moments
+          </li>
+          <li class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            All submissions are reviewed before publication
+          </li>
+        </ul>
+        <a href="/contact.html" class="inline-block bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400">
+          View Guidelines
+        </a>
+      </div>
+    </div>
+
+    <div class="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 rounded-2xl p-8 text-white">
+      <h3 class="text-2xl font-bold mb-4">Join Our Photo Ministry</h3>
+      <p class="text-blue-100 mb-6 max-w-2xl mx-auto">
+        Are you passionate about photography and want to help document our church's journey? 
+        We're always looking for volunteers to join our photo ministry team. 
+        Help us capture the beautiful moments that make our church family special.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact.html" class="inline-block bg-white text-blue-700 font-bold px-8 py-4 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white">
+          Join Photo Ministry
+        </a>
+        <a href="/contact.html" class="inline-block bg-transparent border-2 border-white text-white font-bold px-8 py-4 rounded-lg transition-all duration-300 transform hover:scale-105 hover:bg-white hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-white">
+          Contact Us
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Minimal JS for Ministries dropdown hover
+  document.addEventListener('DOMContentLoaded', function () {
+    var navItem = document.getElementById('ministries-nav-item');
+    var dropdown = document.getElementById('ministries-dropdown');
+    navItem.addEventListener('mouseenter', function() {
+      dropdown.classList.remove('opacity-0', 'invisible');
+      dropdown.classList.add('opacity-100', 'visible');
+    });
+    navItem.addEventListener('mouseleave', function() {
+      dropdown.classList.add('opacity-0', 'invisible');
+      dropdown.classList.remove('opacity-100', 'visible');
+    });
+  });
+</script>
+
+<section class="section">
+</body>
+</html> 

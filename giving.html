@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giving - Diet of the Word Church</title>
+    <meta name="description" content="Support the ministry of Diet of the Word Church through your generous giving. Multiple giving options available.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#dc2626',
+                        accent: '#f59e0b'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <!-- Skip to Content for Accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only absolute top-2 left-2 z-50 bg-blue-700 text-white px-4 py-2 rounded shadow-lg transition-all duration-200">Skip to Content</a>
+    <!-- Header Navigation Component -->
+    <div id="header"></div>
+    <script>
+      fetch('components/header.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('header').innerHTML = data;
+          // --- Dropdown and mobile menu logic ---
+          // Mobile menu open/close logic
+          const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+          const mobileMenu = document.getElementById('mobile-menu');
+          const mobileOverlay = document.getElementById('mobile-overlay');
+          const mobileMenuClose = document.getElementById('mobile-menu-close');
+          function openMobileMenu() {
+            mobileMenu.classList.remove('translate-x-full', 'opacity-0');
+            mobileMenu.classList.add('translate-x-0', 'opacity-100');
+            mobileOverlay.classList.remove('hidden', 'opacity-0');
+            mobileOverlay.classList.add('block', 'opacity-100');
+            mobileMenuBtn.setAttribute('aria-expanded', 'true');
+          }
+          function closeMobileMenu() {
+            mobileMenu.classList.add('translate-x-full', 'opacity-0');
+            mobileMenu.classList.remove('translate-x-0', 'opacity-100');
+            mobileOverlay.classList.add('hidden', 'opacity-0');
+            mobileOverlay.classList.remove('block', 'opacity-100');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+          }
+          if (mobileMenuBtn && mobileMenu && mobileOverlay && mobileMenuClose) {
+            mobileMenuBtn.addEventListener('click', openMobileMenu);
+            mobileMenuClose.addEventListener('click', closeMobileMenu);
+            mobileOverlay.addEventListener('click', closeMobileMenu);
+          }
+          // Ministries dropdown: open on hover or click, close on outside click
+          const ministriesDropdown = document.getElementById('ministries-dropdown');
+          const ministriesLink = document.getElementById('ministries-link');
+          const ministriesMenu = document.getElementById('ministries-menu');
+          let ministriesOpen = false;
+          if (ministriesDropdown && ministriesLink && ministriesMenu) {
+            function openDropdown() {
+              ministriesMenu.classList.add('opacity-100', 'pointer-events-auto');
+              ministriesMenu.classList.remove('opacity-0', 'pointer-events-none');
+              ministriesOpen = true;
+            }
+            function closeDropdown() {
+              ministriesMenu.classList.remove('opacity-100', 'pointer-events-auto');
+              ministriesMenu.classList.add('opacity-0', 'pointer-events-none');
+              ministriesOpen = false;
+            }
+            ministriesDropdown.addEventListener('mouseenter', openDropdown);
+            ministriesDropdown.addEventListener('mouseleave', closeDropdown);
+            ministriesLink.addEventListener('click', function(e) {
+              e.preventDefault();
+              ministriesOpen ? closeDropdown() : openDropdown();
+            });
+            document.addEventListener('click', function(e) {
+              if (!ministriesDropdown.contains(e.target)) {
+                closeDropdown();
+              }
+            });
+          }
+        });
+    </script>
+        <style>
+            .nav-link-ani {
+                position: relative;
+                padding-bottom: 2px;
+                color: #fff;
+                transition: color 0.2s, font-weight 0.2s;
+                font-weight: 500;
+                outline: none;
+            }
+            .nav-link-ani:after {
+                content: '';
+                display: block;
+                position: absolute;
+                left: 0; right: 0; bottom: 0;
+                height: 3px;
+                background: linear-gradient(90deg, #f472b6 0%, #a78bfa 50%, #38bdf8 100%);
+                border-radius: 2px;
+                opacity: 0;
+                transform: scaleX(0.6);
+                transition: opacity 0.4s, transform 0.4s;
+            }
+            .nav-link-ani:hover:after, .nav-link-ani:focus-visible:after {
+                opacity: 1;
+                transform: scaleX(1);
+            }
+            .nav-link-ani.active:after {
+                opacity: 1;
+                transform: scaleX(1);
+            }
+            .nav-link-ani:hover, .nav-link-ani:focus-visible {
+                color: #fbbf24;
+                font-weight: 700;
+                text-shadow: 0 2px 8px #f472b6cc;
+            }
+            /* Hamburger animation */
+            .group.open .top-bar {
+                transform: rotate(45deg) translateY(12px);
+            }
+            .group.open .middle-bar {
+                opacity: 0;
+            }
+            .group.open .bottom-bar {
+                transform: rotate(-45deg) translateY(-12px);
+            }
+            /* Mobile menu fade/slide */
+            #mobile-menu.open {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            #mobile-overlay.open {
+                opacity: 1;
+                pointer-events: auto;
+            }
+        </style>
+    </div>
+
+    <!-- HERO SECTION: Modern, Professional, Interactive -->
+    <section class="relative bg-gradient-to-br from-blue-800 via-purple-700 to-pink-600 min-h-[55vh] flex items-center justify-center overflow-hidden shadow-2xl">
+        <div class="absolute inset-0 bg-hero-pattern opacity-10 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+        <div class="relative z-10 flex flex-col items-center justify-center w-full px-4 py-16 text-center animate-fade-in-up">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white drop-shadow-lg mb-4">Giving</h1>
+            <p class="text-xl md:text-2xl text-blue-100 max-w-2xl mx-auto mb-8 font-medium drop-shadow-md">Support the ministry and mission of Diet of the Word International Church. Your generosity makes a difference.</p>
+        </div>
+        <style>
+            @keyframes fadeInUpHero {
+                0% { opacity: 0; transform: translateY(40px); }
+                100% { opacity: 1; transform: none; }
+            }
+            .animate-fade-in-up {
+                opacity: 0;
+                animation: fadeInUpHero 1.2s cubic-bezier(.4,0,.2,1) 0.2s forwards;
+            }
+            .bg-hero-pattern {
+                background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="%23fff" fill-opacity="0.08"/></svg>');
+                background-repeat: repeat;
+            }
+        </style>
+    </section>
+
+    <!-- Main Content -->
+    <main class="min-h-screen">
+        <!-- Hero Section -->
+        <section class="relative bg-blue-900 text-white py-16 parallax-hero bg-cover bg-center bg-no-repeat" style="background-image: url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1200&q=80');">
+            <div class="container mx-auto px-4 relative z-10">
+                <div class="max-w-4xl mx-auto text-center fade-in-up">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-6 drop-shadow-xl">Support Our Ministry</h1>
+                    <p class="text-xl md:text-2xl mb-8">Your generous giving enables us to spread the Gospel and serve our community</p>
+                    <div class="divider-gradient mx-auto mb-8"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 fade-in-up tilt">
+                            <div class="text-3xl font-bold mb-2">Tithe</div>
+                            <p class="text-white">Faithful giving of 10%</p>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 fade-in-up tilt">
+                            <div class="text-3xl font-bold mb-2">Offerings</div>
+                            <p class="text-white">Additional gifts above tithe</p>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 fade-in-up tilt">
+                            <div class="text-3xl font-bold mb-2">Special Projects</div>
+                            <p class="text-white">Building fund & missions</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button id="backToTop" aria-label="Back to top" class="fixed bottom-8 right-8 z-50 bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 rounded-full shadow-lg opacity-0 pointer-events-none transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
+            </button>
+        </section>
+
+        <!-- Giving Form Section -->
+        <section class="py-16">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        <!-- Giving Form -->
+                        <div class="bg-white rounded-lg shadow-lg p-8">
+                            <h2 class="text-3xl font-bold text-gray-800 mb-6">Make a Donation</h2>
+                            <form id="givingForm" class="space-y-6">
+                                <!-- Personal Information -->
+                                <div class="space-y-4">
+                                    <h3 class="text-xl font-semibold text-gray-700 mb-4">Personal Information</h3>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label for="firstName" class="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+                                            <input type="text" id="firstName" name="firstName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                        </div>
+                                        <div>
+                                            <label for="lastName" class="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+                                            <input type="text" id="lastName" name="lastName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                                        <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                                        <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                    </div>
+                                </div>
+                                <!-- Giving Details -->
+                                <div class="space-y-4">
+                                    <h3 class="text-xl font-semibold text-gray-700 mb-4">Giving Details</h3>
+                                    <div>
+                                        <label for="givingType" class="block text-sm font-medium text-gray-700 mb-2">Giving Type *</label>
+                                        <select id="givingType" name="givingType" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                            <option value="">Select giving type</option>
+                                            <option value="tithe">Tithe (10%)</option>
+                                            <option value="offering">Offering</option>
+                                            <option value="building-fund">Building Fund</option>
+                                            <option value="missions">Missions</option>
+                                            <option value="youth-ministry">Youth Ministry</option>
+                                            <option value="children-ministry">Children's Ministry</option>
+                                            <option value="benevolence">Benevolence Fund</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="amount" class="block text-sm font-medium text-gray-700 mb-2">Amount (KSH) *</label>
+                                        <input type="number" id="amount" name="amount" min="1" step="0.01" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Enter amount">
+                                    </div>
+                                    <div>
+                                        <label for="frequency" class="block text-sm font-medium text-gray-700 mb-2">Frequency</label>
+                                        <select id="frequency" name="frequency" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                            <option value="one-time">One Time</option>
+                                            <option value="weekly">Weekly</option>
+                                            <option value="monthly">Monthly</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Message (Optional)</label>
+                                        <textarea id="message" name="message" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Any special instructions or prayer requests"></textarea>
+                                    </div>
+                                </div>
+                                <!-- Payment Method -->
+                                <div class="space-y-4">
+                                    <h3 class="text-xl font-semibold text-gray-700 mb-4">Payment Method</h3>
+                                    <div class="space-y-3">
+                                        <label class="flex items-center space-x-3 cursor-pointer">
+                                            <input type="radio" name="paymentMethod" value="mpesa" checked class="w-4 h-4 text-primary border-gray-300 focus:ring-primary">
+                                            <span class="text-gray-700">M-Pesa Mobile Money</span>
+                                        </label>
+                                        <label class="flex items-center space-x-3 cursor-pointer">
+                                            <input type="radio" name="paymentMethod" value="bank" class="w-4 h-4 text-primary border-gray-300 focus:ring-primary">
+                                            <span class="text-gray-700">Bank Transfer</span>
+                                        </label>
+                                        <label class="flex items-center space-x-3 cursor-pointer">
+                                            <input type="radio" name="paymentMethod" value="cash" class="w-4 h-4 text-primary border-gray-300 focus:ring-primary">
+                                            <span class="text-gray-700">Cash/Check (Sunday Service)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <!-- Privacy and Terms -->
+                                <div class="space-y-4">
+                                    <div class="flex items-start space-x-3">
+                                        <input type="checkbox" id="privacy" name="privacy" required class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary mt-1">
+                                        <label for="privacy" class="text-sm text-gray-600">
+                                            I agree to the <a href="#" class="text-primary hover:underline">Privacy Policy</a> and 
+                                            <a href="#" class="text-primary hover:underline">Terms of Service</a> *
+                                        </label>
+                                    </div>
+                                    <div class="flex items-start space-x-3">
+                                        <input type="checkbox" id="anonymous" name="anonymous" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary mt-1">
+                                        <label for="anonymous" class="text-sm text-gray-600">
+                                            Make this donation anonymous
+                                        </label>
+                                    </div>
+                                </div>
+                                <!-- Submit Button -->
+                                <button type="submit" class="w-full bg-primary hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition duration-300 transform hover:scale-105">
+                                    Proceed to Payment
+                                </button>
+                            </form>
+                        </div>
+                        <!-- Giving Information -->
+                        <div class="space-y-8">
+                            <!-- Biblical Giving -->
+                            <div class="bg-white rounded-lg shadow-lg p-8">
+                                <h3 class="text-2xl font-bold text-gray-800 mb-4">Biblical Giving</h3>
+                                <div class="space-y-4 text-gray-800">
+                                    <p>"Bring the whole tithe into the storehouse, that there may be food in my house. Test me in this," says the LORD Almighty, "and see if I will not throw open the floodgates of heaven and pour out so much blessing that there will not be room enough to store it."</p>
+                                    <p class="text-sm text-gray-500">- Malachi 3:10</p>
+                                    <p>"Each of you must give as you have made up your mind, not reluctantly or under compulsion, for God loves a cheerful giver."</p>
+                                    <p class="text-sm text-gray-500">- 2 Corinthians 9:7</p>
+                                </div>
+                            </div>
+                            <!-- Giving Categories -->
+                            <div class="bg-white rounded-lg shadow-lg p-8">
+                                <h3 class="text-2xl font-bold text-gray-800 mb-4">Giving Categories</h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-3 h-3 bg-primary rounded-full"></div>
+                                        <span class="text-gray-700">Tithe (10% of income)</span>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-3 h-3 bg-secondary rounded-full"></div>
+                                        <span class="text-gray-700">Offerings (Above tithe)</span>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-3 h-3 bg-accent rounded-full"></div>
+                                        <span class="text-gray-700">Building Fund</span>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                        <span class="text-gray-700">Missions & Outreach</span>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-3 h-3 bg-purple-500 rounded-full"></div>
+                                        <span class="text-gray-700">Youth & Children's Ministry</span>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-3 h-3 bg-pink-500 rounded-full"></div>
+                                        <span class="text-gray-700">Benevolence Fund</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Payment Methods -->
+                            <div class="bg-white rounded-lg shadow-lg p-8">
+                                <h3 class="text-2xl font-bold text-gray-800 mb-4">Payment Methods</h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                                            <span class="text-white font-bold text-sm">M</span>
+                                        </div>
+                                        <div>
+                                            <div class="font-semibold text-gray-800">M-Pesa</div>
+                                            <div class="text-sm text-gray-600">Mobile money transfer</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                            <span class="text-white font-bold text-sm">B</span>
+                                        </div>
+                                        <div>
+                                            <div class="font-semibold text-gray-800">Bank Transfer</div>
+                                            <div class="text-sm text-gray-600">Direct bank deposit</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                        <div class="w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center">
+                                            <span class="text-white font-bold text-sm">C</span>
+                                        </div>
+                                        <div>
+                                            <div class="font-semibold text-gray-800">Cash/Check</div>
+                                            <div class="text-sm text-gray-600">Sunday service collection</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Contact Information -->
+                            <div class="bg-white rounded-lg shadow-lg p-8">
+                                <h3 class="text-2xl font-bold text-gray-800 mb-4">Need Help?</h3>
+                                <div class="space-y-3 text-gray-800">
+                                    <p>If you have questions about giving or need assistance, please contact us:</p>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center space-x-2">
+                                            <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                                            </svg>
+                                            <span>finance@dietofthewordchurch.org</span>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                                            </svg>
+                                            <span>+254 700 000 000</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Testimonials Section -->
+        <section class="bg-gray-100 py-16">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-12">What Our Members Say</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-white rounded-lg shadow-lg p-8">
+                            <div class="text-yellow-400 text-2xl mb-4">★★★★★</div>
+                            <p class="text-gray-800 mb-4">"Giving has been a blessing to our family. We've seen God's faithfulness in our finances since we started tithing faithfully."</p>
+                            <div class="font-semibold text-gray-800">- Sarah Muthoni</div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-lg p-8">
+                            <div class="text-yellow-400 text-2xl mb-4">★★★★★</div>
+                            <p class="text-gray-800 mb-4">"The online giving platform makes it so convenient to support the ministry. I can give anytime, anywhere."</p>
+                            <div class="font-semibold text-gray-800">- John Kamau</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer"></div>
+    <script src="assets/js/components.js"></script>
+</body>
+</html> 

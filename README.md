@@ -1,2 +1,2 @@
-# Diet Of The Word International Church 
-Our Church website
+# diet-of-the-word-church
+Diet of the Word International Church 

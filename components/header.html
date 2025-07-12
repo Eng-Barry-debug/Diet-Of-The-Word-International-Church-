@@ -1,0 +1,124 @@
+<!-- Header Navigation Component (fully responsive, adjusted margins and padding) -->
+<header id="main-header" class="bg-gray-600/95 border-b border-blue-200 shadow-2xl sticky top-0 z-50" style="background: rgba(75,85,99,0.95); height: 72px;">
+  <nav class="w-full flex items-center justify-between px-4 h-[72px] min-h-[72px]" aria-label="Main navigation">
+    <a href="/diet-of-the-word-church/index.html" class="flex items-center h-full flex-shrink-0">
+      <img src="/diet-of-the-word-church/assets/images/Diet logo 2.png" alt="Diet of the Word International Church Logo" class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 object-contain rounded-full border-2 border-blue-400 bg-white">
+    </a>
+    <!-- Desktop Navigation -->
+    <ul class="hidden lg:flex flex-wrap items-center font-semibold text-white text-sm md:text-base h-full ml-2 md:ml-6 space-x-3 md:space-x-6 lg:space-x-8">
+      <li><a href="/diet-of-the-word-church/index.html" class="nav-link-ani active">Home</a></li>
+      <li><a href="/diet-of-the-word-church/about.html" class="nav-link-ani">About</a></li>
+      <li><a href="/diet-of-the-word-church/leadership.html" class="nav-link-ani">Leadership</a></li>
+      <li class="relative group" id="ministries-dropdown">
+        <a href="#" class="nav-link-ani font-semibold px-2 md:px-4 py-2" id="ministries-link">Ministries</a>
+        <ul id="ministries-menu" class="absolute left-0 top-full bg-white border border-gray-200 rounded-lg min-w-[160px] md:min-w-[180px] shadow-lg z-50 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-200 overflow-x-auto max-h-96">
+          <li><a href="/diet-of-the-word-church/ministries/toddlers.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 whitespace-nowrap">Toddlers</a></li>
+          <li><a href="/diet-of-the-word-church/ministries/sunday-school.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 whitespace-nowrap">Sunday School</a></li>
+          <li><a href="/diet-of-the-word-church/ministries/teenagers.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 whitespace-nowrap">Teenagers</a></li>
+          <li><a href="/diet-of-the-word-church/ministries/youth.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 whitespace-nowrap">Youth</a></li>
+          <li><a href="/diet-of-the-word-church/ministries/adults.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 whitespace-nowrap">Adults</a></li>
+        </ul>
+      </li>
+      <li><a href="/diet-of-the-word-church/devotions.html" class="nav-link-ani">Devotions</a></li>
+      <li><a href="/diet-of-the-word-church/sermons.php" class="nav-link-ani">Sermons</a></li>
+      <li><a href="/diet-of-the-word-church/events.html" class="nav-link-ani">Events</a></li>
+      <li><a href="/diet-of-the-word-church/gallery.html" class="nav-link-ani">Gallery</a></li>
+      <li><a href="/diet-of-the-word-church/contact.html" class="nav-link-ani">Contact</a></li>
+      <li><a href="/diet-of-the-word-church/prayer-requests.html" class="nav-link-ani">Prayer Requests</a></li>
+      <li><a href="/diet-of-the-word-church/giving.html" class="ml-1 md:ml-2 px-3 md:px-5 py-2 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-600 text-white font-semibold shadow-xl hover:from-pink-600 hover:to-blue-800 transition-all duration-500 flex items-center gap-2 text-xs md:text-base animate-give-glow focus-visible:ring-2 focus-visible:ring-pink-400">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 1.343-3 3 0 1.657 1.343 3 3 3s3-1.343 3-3c0-1.657-1.343-3-3-3zm0 0V4m0 7v7m0 0H9m3 0h3"/></svg>
+        Give
+      </a></li>
+    </ul>
+    <!-- Hamburger Menu Button for Mobile -->
+    <button id="mobile-menu-btn" class="flex lg:hidden items-center justify-center w-10 h-10 rounded-full bg-gray-700 hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-400 group transition-all duration-300" aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false">
+      <span class="relative w-7 h-7 flex flex-col justify-center items-center">
+        <span class="hamburger-bar top-bar block w-7 h-1 bg-white rounded transition-all duration-300"></span>
+        <span class="hamburger-bar middle-bar block w-7 h-1 bg-white rounded mt-1.5 mb-1.5 transition-all duration-300"></span>
+        <span class="hamburger-bar bottom-bar block w-7 h-1 bg-white rounded transition-all duration-300"></span>
+      </span>
+    </button>
+  </nav>
+  <!-- Mobile Nav & Overlay -->
+  <div id="mobile-overlay" class="fixed inset-0 bg-black bg-opacity-40 z-[90] hidden opacity-0 transition-opacity duration-300" tabindex="-1" aria-hidden="true"></div>
+  <div id="mobile-menu" class="lg:hidden fixed top-0 right-0 w-full max-w-xs min-w-[220px] h-full bg-gray-900 text-white shadow-2xl border-l-4 border-blue-400 z-[9999] transform translate-x-full opacity-0 transition-all duration-500 rounded-l-2xl flex flex-col" role="menu" aria-label="Mobile navigation" tabindex="-1">
+    <button id="mobile-menu-close" class="absolute top-4 right-4 text-white hover:text-pink-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-400 rounded-full bg-gray-700 p-2 shadow-lg border border-pink-400" aria-label="Close menu">
+      <svg class="h-7 w-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <div class="flex-1 flex flex-col justify-center">
+      <ul class="flex flex-col gap-4 md:gap-6 px-4 md:px-8 py-10 md:py-16 font-bold text-white text-base md:text-lg tracking-wide overflow-y-auto max-h-screen" role="menubar">
+        <li><a href="/diet-of-the-word-church/index.html" class="block py-2 md:py-3 nav-link-ani flex items-center gap-2 text-white hover:text-pink-400">Home</a></li>
+        <li><a href="/diet-of-the-word-church/about.html" class="block py-2 md:py-3 nav-link-ani flex items-center gap-2 text-white hover:text-pink-400">About</a></li>
+        <li><a href="/diet-of-the-word-church/leadership.html" class="block py-2 md:py-3 nav-link-ani flex items-center gap-2 text-white hover:text-pink-400">Leadership</a></li>
+        <li class="pt-2 pb-2 border-t border-pink-400">
+          <button class="flex items-center gap-2 w-full py-2 md:py-3 nav-link-ani text-left text-white hover:text-pink-400" aria-haspopup="true" aria-expanded="false" aria-controls="mobile-ministries" onclick="document.getElementById('mobile-ministries').classList.toggle('hidden')">
+            Ministries
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <ul id="mobile-ministries" class="ml-2 md:ml-4 mt-1 hidden">
+            <li><a href="/diet-of-the-word-church/ministries/adults.html" class="block py-2 nav-link-ani flex items-center gap-2 text-white hover:text-pink-400">Adults</a></li>
+            <li><a href="/diet-of-the-word-church/ministries/youth.html" class="block py-2 nav-link-ani flex items-center gap-2 text-white hover:text-pink-400">Youth</a></li>
+            <li><a href="/diet-of-the-word-church/ministries/teenagers.html" class="block py-2 nav-link-ani flex items-center gap-2 text-white hover:text-pink-400">Teenagers</a></li>
+            <li><a href="/diet-of-the-word-church/ministries/sunday-school.html" class="block py-2 nav-link-ani flex items-center gap-2 text-white hover:text-pink-400">Sunday School</a></li>
+            <li><a href="/diet-of-the-word-church/ministries/toddlers.html" class="block py-2 nav-link-ani flex items-center gap-2 text-white hover:text-pink-400">Toddlers</a></li>
+          </ul>
+        </li>
+        <li><a href="/diet-of-the-word-church/devotions.html" class="block py-2 md:py-3 nav-link-ani flex items-center gap-2 text-white hover:text-pink-400">Devotions</a></li>
+        <li><a href="/diet-of-the-word-church/sermons.php" class="block py-2 md:py-3 nav-link-ani flex items-center gap-2 text-white hover:text-pink-400">Sermons</a></li>
+        <li><a href="/diet-of-the-word-church/events.html" class="block py-2 md:py-3 nav-link-ani flex items-center gap-2 text-white hover:text-pink-400">Events</a></li>
+        <li><a href="/diet-of-the-word-church/gallery.html" class="block py-2 md:py-3 nav-link-ani flex items-center gap-2 text-white hover:text-pink-400">Gallery</a></li>
+        <li><a href="/diet-of-the-word-church/contact.html" class="block py-2 md:py-3 nav-link-ani flex items-center gap-2 text-white hover:text-pink-400">Contact</a></li>
+        <li><a href="/diet-of-the-word-church/prayer-requests.html" class="block py-2 md:py-3 nav-link-ani flex items-center gap-2 text-white hover:text-pink-400">Prayer Requests</a></li>
+        <li><a href="/diet-of-the-word-church/giving.html" class="block py-2 md:py-3 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-600 text-white font-semibold shadow-xl hover:from-pink-600 hover:to-blue-800 transition-all duration-500 flex items-center gap-2 mt-2 md:mt-4 animate-give-glow focus-visible:ring-2 focus-visible:ring-pink-400">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 1.343-3 3 0 1.657 1.343 3 3 3s3-1.343 3-3c0-1.657-1.343-3-3-3zm0 0V4m0 7v7m0 0H9m3 0h3"/></svg>
+          Give
+        </a></li>
+      </ul>
+    </div>
+  </div>
+  <style>
+    .nav-link-ani {
+      position: relative;
+      padding-bottom: 2px;
+      color: #fff;
+      transition: color 0.2s, font-weight 0.2s;
+      font-weight: 500;
+      outline: none;
+    }
+    .nav-link-ani:after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #f472b6 0%, #a78bfa 50%, #38bdf8 100%);
+      border-radius: 2px;
+      opacity: 0;
+      transform: scaleX(0.6);
+      transition: opacity 0.4s, transform 0.4s;
+    }
+    .nav-link-ani:hover:after, .nav-link-ani:focus-visible:after {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+    .nav-link-ani.active:after {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+    .nav-link-ani:hover, .nav-link-ani:focus-visible {
+      color: #fbbf24;
+      font-weight: 700;
+      text-shadow: 0 2px 8px #f472b6cc;
+    }
+    
+    /* Give button glow animation */
+    @keyframes give-glow {
+      0%, 100% { box-shadow: 0 0 5px rgba(236, 72, 153, 0.5); }
+      50% { box-shadow: 0 0 20px rgba(236, 72, 153, 0.8), 0 0 30px rgba(139, 92, 246, 0.6); }
+    }
+    
+    .animate-give-glow {
+      animation: give-glow 2s ease-in-out infinite;
+    }
+  </style>
+</header> 
