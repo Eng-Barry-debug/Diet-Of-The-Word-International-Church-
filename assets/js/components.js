@@ -4,16 +4,24 @@
 function loadComponent(selector, url) {
   const container = document.querySelector(selector);
   if (container) {
+    // Add loading indicator
+    container.innerHTML = '<div class="flex items-center justify-center p-4"><div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div></div>';
+    
     fetch(url)
       .then(res => {
-        if (!res.ok) throw new Error(`Failed to load ${url}`);
+        if (!res.ok) throw new Error(`Failed to load ${url}: ${res.status}`);
         return res.text();
       })
       .then(html => {
-        container.insertAdjacentHTML('beforeend', html);
+        container.innerHTML = html;
+        // Initialize any component-specific functionality
+        if (selector === '#header') {
+          highlightActiveNav();
+        }
       })
       .catch(err => {
-        console.error(err);
+        console.error('Component loading error:', err);
+        container.innerHTML = `<div class="p-4 text-red-500">Failed to load component: ${url}</div>`;
       });
   }
 }
@@ -30,7 +38,7 @@ function highlightActiveNav() {
 }
 
 // Main site components
-// loadComponent('#header', 'components/header.html', highlightActiveNav);
+// Header is now inline in index.html for faster loading
 loadComponent('#footer', 'components/footer.html');
 
 // Admin components
@@ -44,13 +52,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Sticky shadow on scroll
   const header = document.getElementById('main-header');
-  window.addEventListener('scroll', function () {
-    if (window.scrollY > 10) {
-      header.classList.add('shadow-lg');
-    } else {
-      header.classList.remove('shadow-lg');
-    }
-  });
+  if (header) {
+    window.addEventListener('scroll', function () {
+      if (window.scrollY > 10) {
+        header.classList.add('shadow-lg');
+      } else {
+        header.classList.remove('shadow-lg');
+      }
+    });
+  }
 
   // Mobile menu slide-in/out and overlay with focus trap
   const btn = document.getElementById('mobile-menu-btn');
